@@ -23,13 +23,9 @@ export const generos = (parametro) => {
 }
 
 //obtenemos detalles de peliculas por categoria 
-const filtro = 'discover/movie?';
-export const peliculas = (valor) => {
-    fetch(url_base + filtro + new URLSearchParams({
-        api_key: llave,
-        language: lenguage,
-        with_genres: valor,
-    })).then((resp) => {
+export const mostrar = (parametro, id) => {
+    const filtro = 'discover/movie?';
+    fetch(parametro).then((resp) => {
         if (resp.status !== 200) {
             console.log(`Error en api: ${resp.statusText}`);
             return;
@@ -43,7 +39,9 @@ export const peliculas = (valor) => {
                             </label>
                         `;
             })
-            document.getElementById('peliculas').innerHTML = html;
+            document.getElementById(id).innerHTML = html;
         });
     });
 }
+
+//Listar series mas populares
