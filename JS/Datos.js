@@ -22,7 +22,7 @@ export const generos = (parametro) => {
     });
 }
 
-//obtenemos detalles de peliculas por genero 
+//obtenemos detalles de peliculas por categoria 
 const filtro = 'discover/movie?';
 export const peliculas = (valor) => {
     fetch(url_base + filtro + new URLSearchParams({
@@ -37,10 +37,13 @@ export const peliculas = (valor) => {
         resp.json().then((data) => {
             var html = '';
             data.results.forEach(element => {
-                html += `<a href="https://image.tmdb.org/t/p/w500${element.poster_path}"><img src="https://image.tmdb.org/t/p/w500${element.poster_path}"/></a>`;
+                html += `
+                            <label>${element.title} Fecha de lanzamiento: ${element.release_date}
+                             <img src="https://image.tmdb.org/t/p/w500${element.poster_path}"/>
+                            </label>
+                        `;
             })
             document.getElementById('peliculas').innerHTML = html;
-            console.log(genero.value);
         });
     });
 }
