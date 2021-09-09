@@ -1,13 +1,6 @@
-const url_base = 'https://api.themoviedb.org/3/';
-const llave = '71af66658989368f32199a9e2250ec32';
-const lenguage = 'es';
-
 //Desplegar las categorias en el combo box
 export const generos = (parametro) => {
-    fetch(url_base + parametro + new URLSearchParams({
-        api_key: llave,
-        language: lenguage,
-    })).then((resp) => {
+    fetch(parametro).then((resp) => {
         if (resp.status !== 200) {
             console.log(`Error en api: ${resp.statusText}`);
             return;
@@ -23,8 +16,7 @@ export const generos = (parametro) => {
 }
 
 //obtenemos detalles de peliculas por categoria 
-export const mostrar = (parametro, id) => {
-    const filtro = 'discover/movie?';
+export const mostrar = (parametro) => {
     fetch(parametro).then((resp) => {
         if (resp.status !== 200) {
             console.log(`Error en api: ${resp.statusText}`);
@@ -32,16 +24,35 @@ export const mostrar = (parametro, id) => {
         }
         resp.json().then((data) => {
             var html = '';
+            var header = '';
             data.results.forEach(element => {
-                html += `
-                            <label>${element.title} Fecha de lanzamiento: ${element.release_date}
-                             <img src="https://image.tmdb.org/t/p/w500${element.poster_path}"/>
-                            </label>
+                if (element.title !== undefined) {
+                    html += `<div>
+                                <label> 
+                                    <img src="https://image.tmdb.org/t/p/w500${element.poster_path}"/>
+                                </label>
+                                <p>${element.title}</p>
+                                <p>Fecha de lanzamiento: ${element.release_date}</p>
+                            </div>
                         `;
+                    var combo = document.getElementById('categoria');
+                    header = combo.options[combo.selectedIndex].text;
+                } else {
+
+                    html += `<div>
+                                <label>
+                                <img src="https://image.tmdb.org/t/p/w500${element.poster_path}"/>
+                                </label>
+                                <p>${element.name}</p>
+                                <p>Fecha de lanzamiento: ${element.first_air_date}</p>
+                            </div>
+                        `;
+                    header = 'Series mas populares hoy';
+                }
+
             })
-            document.getElementById(id).innerHTML = html;
+            document.getElementById('header').innerHTML = header;
+            document.getElementById('peliculas').innerHTML = html;
         });
     });
 }
-
-//Listar series mas populares
