@@ -3,7 +3,7 @@ const llave = '71af66658989368f32199a9e2250ec32';
 const lenguage = 'es';
 const fil = 'genre/movie/list?';
 const filtro = 'discover/movie?';
-const filtro2 = 'trending/tv/day?';
+const filtro2 = 'discover/tv?';
 import {
     generos,
     mostrar
@@ -27,4 +27,5 @@ genero.addEventListener('change', () => mostrar(url_base + filtro + new URLSearc
 mostrar(url_base + filtro2 + new URLSearchParams({
     api_key: llave,
     language: lenguage,
+    sort_by: 'popularity.desc'
 }))
